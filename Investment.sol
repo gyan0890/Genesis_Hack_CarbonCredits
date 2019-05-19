@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.5.4;
 pragma experimental ABIEncoderV2;
 
 contract Investment {
@@ -25,29 +25,20 @@ contract Investment {
         investor.investorId = _investorId;
         investor.subRegion = _subRegion;
         investor.numSolarPanels = _numSolarPanels;
-        investor.investmentAmount = _numSolarPanels*2;
+        investor.investmentAmount = _numSolarPanels*29;
         vendorId = _vendorId;
         investor.closed = false;
         
+        investors[_address] = investor;
         investorAccts.push(_address) -1;
     }
 
-    function getAllInvestors() public view
-    returns(uint[] memory investorId, string[] memory subRegion, 
-    uint[] memory numSolarPanels, uint[] memory investmentAmount) {
-        uint[] memory investorIds;
-        string[] memory subRegions;
-        uint[] memory numSolarPanel;
-        uint[] memory investmentAmounts;
-        for(uint i = 0; i < investorAccts.length; i++){
-            Investor memory investor = investors[investorAccts[i]];
-            investorIds[i] = investor.investorId;
-            subRegions[i] = investor.subRegion;
-            numSolarPanel[i] = investor.numSolarPanels;
-            investmentAmounts[i] = investor.investmentAmount;
-        }
+    function amountInvested(address _address) public view
+    returns(uint) {
         
-        return(investorIds,subRegions,numSolarPanel,investmentAmounts);
+            Investor memory investor = investors[_address];
+            return investor.investmentAmount;
+            
     }   
     
     function addInvestor(address payable _address, uint _investorId, 
@@ -57,11 +48,12 @@ contract Investment {
         investorNew.investorId = _investorId;
         investorNew.subRegion = _subRegion;
         investorNew.numSolarPanels = _numSolarPanels;
-        investorNew.investmentAmount = _numSolarPanels*2;
+        investorNew.investmentAmount = _numSolarPanels*29;
         vendorId = _vendorId;
         investorNew.closed = false;
         
-        investorAccts.push(_address) -1;
+        investors[_address] = investorNew;
+        investorAccts.push(_address);
     }
     
     function compareStrings (string memory a, string memory b) public pure 
